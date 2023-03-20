@@ -5,5 +5,5 @@ export interface Product {
   thumbnail?: string,
   code: string,
   stock: number
-  id: string
+  productId: string
 }

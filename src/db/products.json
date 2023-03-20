@@ -1,38 +1,42 @@
 [
   {
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin Imagen",
-    "code": "abc123",
-    "stock": 25,
-    "id": "1gqv6lhj40f4b17348117fc"
+    "title": "Mesa Notebook Gadnic Soporte Plegable Regulable Con Cooler",
+    "description": "Mesa Notebook Gadnic regulable Laptop Con cooler Desk711",
+    "price": 15349,
+    "thumbnail": [],
+    "code": "MESA0001",
+    "status": true,
+    "category": "Tecno",
+    "stock": 25
   },
   {
-    "title": "producto test2",
-    "description": "Este es un producto test 2",
-    "price": 545,
-    "thumbnail": "Sin Imagen",
-    "code": "abc14",
-    "stock": 25,
-    "id": "1gqv6lhj6097b75cdc4c5af"
+    "title": "Tobogan Elefantito 4 Niveles 3 Escalones Rodacross Srj",
+    "description": "Tobogan Elefantito Rodacross",
+    "price": 19139,
+    "thumbnail": [],
+    "code": "ABC123",
+    "status": true,
+    "category": "juguetes",
+    "stock": 31
   },
   {
-    "title": "producto test3",
-    "description": "Este es un producto test 3",
-    "price": 11,
-    "thumbnail": "Sin Imagen",
-    "code": "abc1258",
-    "stock": 25,
-    "id": "1gqv6lhj70af252b98466b5"
+    "title": "Bicicleta Mountain Mtb Firebird Rodado 29 21v Modelo 2023",
+    "description": "Cuadro: FireBird Turbo Acero NUEVO MODELO",
+    "price": 69499,
+    "thumbnail": [],
+    "code": "ABC554",
+    "status": true,
+    "category": "Deporte",
+    "stock": 10
   },
   {
-    "title": "producto test4",
-    "description": "Este es un producto test 4",
-    "price": 35,
-    "thumbnail": "Sin Imagen",
-    "code": "abc1254",
-    "stock": 55,
-    "id": "1gqv6lhj70a7df5f3e9a683"
+    "title": "Parlante Noblex MNT390 portátil con bluetooth negro 220V",
+    "description": "Noblex MNT390 ofrece un sonido natural, con una gran claridad y precisión, que se dispersa de manera uniforme. Un parlante que asegura potencia y calidad por igual en la reproducción de contenidos multimedia.",
+    "price": 68199,
+    "thumbnail": [],
+    "code": "MNT390",
+    "status": true,
+    "category": "Tecno",
+    "stock": 55
   }
 ]
