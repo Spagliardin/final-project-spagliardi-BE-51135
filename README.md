@@ -5,7 +5,7 @@ Run `npm run dev` for a dev server. url `http://localhost:8080/`. The applicatio
 
 ## Build
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. Then raise the project with `npm run start`
+Run `npm run build` and `npm run copy-statics` to build the project. The build artifacts will be stored in the `dist/` directory. Then raise the project with `npm run start`
 
 ## JSON Postman
 

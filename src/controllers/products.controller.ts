@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import Server from "../server/server";
 import { ProductManager } from "../core/models/product-manager";
 
 const productManager = new ProductManager();
@@ -36,11 +37,18 @@ export const createProduct = async (req: Request, res: Response) => {
   const body = req.body;
 
   try {
-    const listProducst = await productManager.addProduct(body);
+    const listProducts = await productManager.addProduct(body);
+
+    const payload = {
+      listProducts
+    }
+  
+    const server = Server.instance
+    server.io.emit( 'products-list', payload )
 
     res.json({
       ok: true,
-      listProducst,
+      listProducts,
     });
   } catch (error) {
     res.status(501).json({

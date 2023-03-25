@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon dist/index.js\""
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon dist/index.js\"",
+    "copy-statics": "ts-node src/tools/copy-statics"
   },
   "author": "Spagliardi Nicolas",
   "license": "MIT",
@@ -14,14 +15,19 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/node": "^18.15.3",
+    "@types/shelljs": "^0.8.11",
+    "@types/socket.io": "^3.0.2",
     "concurrently": "^7.6.0",
     "nodemon": "^2.0.21",
+    "shelljs": "^0.8.5",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
   }
 }
