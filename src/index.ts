@@ -3,6 +3,7 @@ import Server from "./server/server";
 import dotenv from 'dotenv';
 import cors from 'cors'
 import path from "path";
+import dbConnection  from "./core/db/config";
 
 dotenv.config();
 
@@ -11,6 +12,8 @@ const server = Server.instance;
 server.app.use( urlencoded({extended: true}) )
 server.app.use( json())
 server.app.use( cors({ origin: true, credentials: true }) )
+
+dbConnection()
 
 server.app.use( express.static('dist/public') )
 

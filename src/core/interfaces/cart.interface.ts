@@ -1,3 +1,4 @@
+import { Document, Types } from "mongoose";
 export interface Cart {
   products: ProductCart[];
   cartId: string

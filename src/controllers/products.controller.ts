@@ -1,23 +1,27 @@
 import { Request, Response } from "express";
 import Server from "../server/server";
+
 import { ProductManager } from "../core/models/product-manager";
 
 const productManager = new ProductManager();
 
 export const getProducts = async (req: Request, res: Response) => {
-  const listProducts = await productManager.getProducts();
+
+  const { products, total }: any = await productManager.getProducts();
 
   res.json({
     ok: true,
-    products: listProducts,
+    products,
+    total
   });
 };
 
 export const getProductById = async (req: Request, res: Response) => {
-  const uid = req.params.pid;
+
+  const pid = req.params.pid;
 
   try {
-    const product = await productManager.getProductByID(uid);
+    const product = await productManager.getProductByID(pid);
 
     res.json({
       ok: true,
@@ -29,20 +33,16 @@ export const getProductById = async (req: Request, res: Response) => {
       msg: await error,
     });
   }
-
-  // localhost:8080/api/products/1gqv6lhj70a7df5f3e9a683
 };
 
 export const createProduct = async (req: Request, res: Response) => {
+
   const body = req.body;
 
   try {
     const listProducts = await productManager.addProduct(body);
 
-    const payload = {
-      listProducts
-    }
-  
+    const payload = { listProducts }
     const server = Server.instance
     server.io.emit( 'products-list', payload )
 
@@ -59,11 +59,11 @@ export const createProduct = async (req: Request, res: Response) => {
 };
 
 export const updateProduct = async (req: Request, res: Response) => {
-  const uid = req.params.pid;
+  const pid = req.params.pid;
   const product = req.body;
 
   try {
-    const updateProduct = await productManager.updateProduct(uid, product);
+    const updateProduct = await productManager.updateProduct(pid, product);
     res.json({
       ok: true,
       updateProduct,
@@ -80,10 +80,10 @@ export const deleteProduct = async (req: Request, res: Response) => {
   const uid = req.params.pid;
 
   try {
-    const productsWithoutEliminated = await productManager.deleteProduct(uid);
+    const productEliminated = await productManager.deleteProduct(uid);
     res.json({
       ok: true,
-      productsWithoutEliminated,
+      msg: `Todo id ${ productEliminated._id } Deleted successfully`
     });
   } catch (error) {
     res.status(501).json({
