@@ -1,6 +1,10 @@
 import { ProductInterface } from "../interfaces/product.interface";
 import Product from "../db/models/products";
-import { SortOrder } from "mongoose";
+import { PaginateResult, SortOrder, Document, ObjectId } from "mongoose";
+
+interface ResultPaginate {
+  products: PaginateResult<Document<unknown, { limit: number; page: number; }, ProductInterface> & Omit<ProductInterface & { _id: ObjectId; }, never>>
+}
 
 export class ProductManager {
 
@@ -36,21 +40,22 @@ export class ProductManager {
     }
   }
 
-  public async getProducts(sort: SortOrder, query: string, limit?: number, page?: number ): Promise<{products: ProductInterface[], total: number} | Error> {
+  public async getProducts( sort: any, query: string, limit: number, page: number ): Promise< ResultPaginate | Error> {
 
-    const [ products, total ] = await Promise.all([
-      Product.find({}, query )
-             .limit( limit ?? 10 )
-             .sort([['price', sort]]),
-              
-      Product.countDocuments()
-    ])
+    if(sort) sort = [['price', sort]]
+
+    const options = {
+      sort,
+      limit,
+      page
+    }
+
+    const products = await Product.paginate({ query }, options)
 
     try {
       return {
-        products,
-        total
-      };
+        products
+      }
     } catch (error) {
       console.error(error);
       throw 'Products not found'

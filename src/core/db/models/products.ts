@@ -1,5 +1,6 @@
-import { Schema, model } from 'mongoose'
-import { ProductInterface } from '../../interfaces/product.interface';
+import { PaginateModel, Schema, model } from 'mongoose'
+import paginate from 'mongoose-paginate-v2';
+import { ProductDocument, ProductInterface } from '../../interfaces/product.interface';
 
 const ProductSchema = new Schema<ProductInterface>({
 
@@ -35,10 +36,13 @@ const ProductSchema = new Schema<ProductInterface>({
 
 })
 
+ProductSchema.plugin(paginate)
+
 ProductSchema.method<ProductInterface>('toJSON', function() {
   const {__v, _id, ...object} = this.toObject();
   object.pid = _id
   return object
 })
 
-export default model<ProductInterface>( 'Product', ProductSchema )
+
+export default model<ProductInterface>( 'Product', ProductSchema ) as ProductDocument<ProductInterface>

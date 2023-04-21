@@ -8,17 +8,19 @@ const productManager = new ProductManager();
 
 export const getProducts = async (req: Request, res: Response) => {
 
-  const { limit, page, sort } = req.query
-  let { query } = req.query
+  let { query, limit , page, sort }: any = req.query
   
-  if(!query) query = "title description price thumbnail code status category stock"
+  if(!limit) limit = 10
+  if(!page) page = 1
+  if(!query) query = undefined
   
-  const { products, total }: any = await productManager.getProducts( sort as SortOrder, String(query), Number(limit), Number(page) );
+  const { products }: any = await productManager.getProducts( sort as SortOrder, query, limit, page);
+  const { docs, ...props } = products
 
   res.json({
     ok: true,
-    products,
-    total
+    payload: docs,
+    ...props
   });
 };
 

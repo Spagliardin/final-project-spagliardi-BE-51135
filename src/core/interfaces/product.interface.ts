@@ -1,4 +1,4 @@
-import { Document } from "mongoose"
+import { Document, PaginateModel } from "mongoose"
 
 export interface ProductInterface extends Document {
   title: string,
@@ -10,3 +10,5 @@ export interface ProductInterface extends Document {
   stock: number
   thumbnail?: string,
 }
+
+export interface ProductDocument<T extends Document> extends PaginateModel<T> {}
