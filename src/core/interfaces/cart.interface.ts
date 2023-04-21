@@ -1,10 +1,11 @@
 import { Document, Types } from "mongoose";
-export interface Cart {
+
+export interface CartsInput extends Document {
   products: ProductCart[];
   cartId: string
 }
 
 export interface ProductCart {
-  product:  string;
+  product:  Types.ObjectId;
   quantity: number;
 }

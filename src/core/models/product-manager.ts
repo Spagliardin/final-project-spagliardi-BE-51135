@@ -1,5 +1,6 @@
 import { ProductInterface } from "../interfaces/product.interface";
 import Product from "../db/models/products";
+import { SortOrder } from "mongoose";
 
 export class ProductManager {
 
@@ -35,10 +36,13 @@ export class ProductManager {
     }
   }
 
-  public async getProducts(): Promise<{products: ProductInterface[], total: number} | Error> {
+  public async getProducts(sort: SortOrder, query: string, limit?: number, page?: number ): Promise<{products: ProductInterface[], total: number} | Error> {
 
     const [ products, total ] = await Promise.all([
-      Product.find(),
+      Product.find({}, query )
+             .limit( limit ?? 10 )
+             .sort([['price', sort]]),
+              
       Product.countDocuments()
     ])
 

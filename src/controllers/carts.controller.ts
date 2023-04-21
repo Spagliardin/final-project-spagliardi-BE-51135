@@ -20,6 +20,21 @@ export const createCart = async (req: Request, res: Response) => {
   }
 };
 
+export const getCarts = async (req: Request, res: Response) => {
+  const carts = await cartManager.getCarts()
+  try {
+    res.json({
+      ok: true,
+      carts
+    })
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: await error,
+    });
+  }
+}
+
 export const getCart = async (req: Request, res: Response) => {
   const uid = req.params.cid;
 

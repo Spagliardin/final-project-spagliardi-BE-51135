@@ -2,12 +2,18 @@ import { Request, Response } from "express";
 import Server from "../server/server";
 
 import { ProductManager } from "../core/models/product-manager";
+import { SortOrder } from "mongoose";
 
 const productManager = new ProductManager();
 
 export const getProducts = async (req: Request, res: Response) => {
 
-  const { products, total }: any = await productManager.getProducts();
+  const { limit, page, sort } = req.query
+  let { query } = req.query
+  
+  if(!query) query = "title description price thumbnail code status category stock"
+  
+  const { products, total }: any = await productManager.getProducts( sort as SortOrder, String(query), Number(limit), Number(page) );
 
   res.json({
     ok: true,
