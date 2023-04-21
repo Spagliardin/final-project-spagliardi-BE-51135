@@ -1,5 +1,5 @@
-import { CartManager } from "./../core/models/cart-manager";
 import { Request, Response } from "express";
+import { CartManager } from "./../core/models/cart-manager";
 
 const cartManager = new CartManager();
 
@@ -86,15 +86,16 @@ export const deleteProductToCart = async (req: Request, res: Response) => {
   }
 };
 
-export const updateCart = async ( req: Request, res: Response ) => {
+export const deleteAllCart = async ( req: Request, res: Response ) => {
 
   const { cid } = req.params
 
+  const deleteAllCart = await cartManager.deleteAllCart(cid)
 
   try {
     res.json({
       ok: true,
-      msg: 'tdo ok',
+      msg: deleteAllCart,
     });
   } catch (err) {
     res.status(501).json({
@@ -103,3 +104,23 @@ export const updateCart = async ( req: Request, res: Response ) => {
     });
   }
 }
+
+export const modifyQuantity = async (req: Request, res: Response ) => {
+  const { cid, pid } = req.params
+  const { quantity } = req.body
+
+  const cartUpdated = await cartManager.modifyQuantity(cid, pid, quantity)
+
+  try {
+    res.json({
+      ok: true,
+      cartUpdated,
+    });
+  } catch (err) {
+    res.status(501).json({
+      ok: false,
+      msg: await err,
+    });
+  }
+}
+

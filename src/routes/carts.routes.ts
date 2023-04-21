@@ -4,16 +4,18 @@ import {
   getCart,
   addProductToCart,
   deleteProductToCart,
-  updateCart
+  deleteAllCart,
+  modifyQuantity
 } from "../controllers/carts.controller";
 
 const router: Router = Router()
 
 router.get( '/', getCarts )
-router.post( '/', createCart )
 router.get( '/:cid', getCart )
+router.post( '/', createCart )
 router.post( '/:cid/product/:pid', addProductToCart )
+router.put( '/:cid/product/:pid', modifyQuantity )
 router.delete('/:cid/product/:pid', deleteProductToCart )
-router.put( '/:cid', updateCart )
+router.delete( '/:cid', deleteAllCart )
 
 module.exports = router

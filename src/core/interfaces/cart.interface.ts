@@ -5,8 +5,7 @@ export interface CartsInput extends Document {
   cartId: string
 }
 
-export interface ProductCart {
+export interface ProductCart extends Document {
   product:  Types.ObjectId;
   quantity: number;
-  _id?: ObjectId;
 }

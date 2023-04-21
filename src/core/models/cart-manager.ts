@@ -1,6 +1,6 @@
-import { CartsInput, ProductCart } from "./../interfaces/cart.interface";
 import Carts from "../db/models/carts";
-import mongoose, { ObjectId } from "mongoose";
+import { Document, Types } from "mongoose";
+import { CartsInput, ProductCart } from "./../interfaces/cart.interface";
 
 export class CartManager {
   public get cartUid() {
@@ -28,18 +28,32 @@ export class CartManager {
     }
   }
 
-  public async getCartById(cid: string): Promise<CartsInput> {
+  public async getCartById(cid: string): Promise<
+    | (Document<unknown, {}, CartsInput> &
+        Omit<
+          CartsInput & {
+            _id: Types.ObjectId;
+          },
+          never
+        >)
+    | null
+  > {
     const cartById = await Carts.findById(cid).populate("products.product");
-    if (cartById) return cartById;
-    else throw "Cart not Found";
+    try {
+      return cartById;
+    } catch (error) {
+      console.error(error);
+      throw "Cart not Found";
+    }
   }
 
   public async addProductToCart(
     productId: string,
     cartId: string
   ): Promise<ProductCart[] | null | Error> {
-    
     const cartById = await this.getCartById(cartId);
+
+    if (!cartById) throw "Cart ID invalid";
     const { products } = cartById;
 
     const productIndex = this.productIndex(products, productId);
@@ -67,12 +81,16 @@ export class CartManager {
     try {
       return updatedCart;
     } catch (error) {
+      console.error(error);
       throw "Error update with add product";
     }
   }
 
   public async deleteProductToCart(productId: string, cartId: string) {
     const cartById = await this.getCartById(cartId);
+
+    if (!cartById) throw "Cart ID invalid";
+
     const { products } = cartById;
     const productIndex = this.productIndex(products, productId);
     const productsId = products[productIndex]._id;
@@ -88,6 +106,7 @@ export class CartManager {
       const cartWithoutDeletedProduct = await deleteProduct();
       return cartWithoutDeletedProduct;
     } catch (error) {
+      console.error(error);
       throw "Error update with delete product";
     }
   }
@@ -96,12 +115,49 @@ export class CartManager {
     try {
       return await Carts.find();
     } catch (error) {
+      console.error(error);
       throw error;
     }
   }
 
-  public async updateCart(cartId: string){
-    const cartById = await this.getCartById(cartId)
+  public async deleteAllCart(cartId: string): Promise<string | Error> {
+    const cartById = await this.getCartById(cartId);
+    if (!cartById) throw "Cart ID invalid";
+
+    await Carts.findByIdAndUpdate(
+      cartId,
+      { $set: { products: [] } },
+      { new: true }
+    );
+
+    try {
+      return "Deleted success";
+    } catch (error) {
+      console.error(error);
+      throw "Error with this updated in cart";
+    }
+  }
+
+  public async modifyQuantity(cartId: string, productId: string, quantity: number){
+    const cartById = await this.getCartById(cartId);
+
+    if (!cartById) throw "Cart ID invalid";
+
+    const { products } = cartById;
+    const productIndex = this.productIndex(products, productId);
+    const productsId = products[productIndex]._id;
+
+    const updatedQuantity = await Carts.findOneAndUpdate(
+      { "products._id": productsId },
+      { $set: { "products.$.quantity": quantity } },
+      { new: true }
+    ).populate("products.product");
+
+    try {
+      return updatedQuantity
+    } catch (error) {
+      throw 'Error in update quantity'
+    }
   }
 
   private productIndex(products: ProductCart[], productId: string): number {
