@@ -1,9 +1,8 @@
-import { CartsInput, ProductCart } from './../interfaces/cart.interface';
-import Carts  from "../db/models/carts";
-import mongoose, { ObjectId } from 'mongoose';
+import { CartsInput, ProductCart } from "./../interfaces/cart.interface";
+import Carts from "../db/models/carts";
+import mongoose, { ObjectId } from "mongoose";
 
 export class CartManager {
-
   public get cartUid() {
     return this.uidGenerator;
   }
@@ -18,90 +17,96 @@ export class CartManager {
   }
 
   public async addCart(bodyCart: ProductCart): Promise<CartsInput[]> {
-    
     try {
-      const cart = new Carts(bodyCart)
-      await cart.save()
+      const cart = new Carts(bodyCart);
+      await cart.save();
 
-      const carts = await this.getCarts()
-      return carts
-
+      const carts = await this.getCarts();
+      return carts;
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 
   public async getCartById(cid: string): Promise<CartsInput> {
-    const cartById = await Carts.findById(cid).populate('products.product');
+    const cartById = await Carts.findById(cid).populate("products.product");
     if (cartById) return cartById;
     else throw "Cart not Found";
   }
 
-  public async addProductToCart(productId: string, cartId: string) {
+  public async addProductToCart(
+    productId: string,
+    cartId: string
+  ): Promise<ProductCart[] | null | Error> {
+    
     const cartById = await this.getCartById(cartId);
     const { products } = cartById;
 
-    // const pid = new ObjectId(productId).
+    const productIndex = this.productIndex(products, productId);
 
-    const productIndex = products.findIndex(
-      (product: ProductCart) => {
-        console.log((product.product?._id.toJSON()));
-        console.log(productId);
-        return product.product?._id.toJSON() === productId
-      } 
-    );
-
-    let updatedCart;
+    let updatedCart: ProductCart[] | null;
 
     if (productIndex >= 0) {
-      console.log('ENTRA ACA')
-
-      const updatedProducts = (cartById.get('products'))
-      const productsId = updatedProducts[productIndex]._id.toJSON()
+      const updatedProducts = cartById.get("products");
+      const productsId = updatedProducts[productIndex]._id.toJSON();
       const quantity = updatedProducts[productIndex].quantity;
-      
-      updatedCart = await Carts.findOneAndUpdate(
-        { "products._id" : productsId },
-        { $set: {  'products.$.quantity' : quantity + 1 }},
-        { new: true })
-        .populate('products.product')
 
+      updatedCart = await Carts.findOneAndUpdate(
+        { "products._id": productsId },
+        { $set: { "products.$.quantity": quantity + 1 } },
+        { new: true }
+      ).populate("products.product");
     } else {
-      console.log('ELSE')
       updatedCart = await Carts.findByIdAndUpdate(
         cartId,
-        { $push: { products: { product: productId, quantity: 1 }}},
-        { new: true })
-        .populate('products.product')
+        { $push: { products: { product: productId, quantity: 1 } } },
+        { new: true }
+      ).populate("products.product");
     }
 
-    // console.log(updatedCart);
-
-    return updatedCart;
+    try {
+      return updatedCart;
+    } catch (error) {
+      throw "Error update with add product";
+    }
   }
 
-  // public async deleteCart(id: string) {
-  //   const cartById = await this.getCartById(id);
-  //   if (!cartById) return cartById;
+  public async deleteProductToCart(productId: string, cartId: string) {
+    const cartById = await this.getCartById(cartId);
+    const { products } = cartById;
+    const productIndex = this.productIndex(products, productId);
+    const productsId = products[productIndex]._id;
 
-  //   const carts: CartsInput[] = JSON.parse(await this.getFile());
-  //   const cartsWithoutEliminated = carts.filter(
-  //     (cart) => cart.cartId !== cartById.cartId
-  //   );
+    const deleteProduct = async () =>
+      await Carts.findOneAndUpdate(
+        { "products._id": productsId },
+        { $pull: { products: { product: productId } } },
+        { new: true }
+      );
 
-  //   await writeFile(
-  //     `${this.path}/carts.json`,
-  //     JSON.stringify(cartsWithoutEliminated)
-  //   );
-
-  //   return cartsWithoutEliminated;
-  // }
+    try {
+      const cartWithoutDeletedProduct = await deleteProduct();
+      return cartWithoutDeletedProduct;
+    } catch (error) {
+      throw "Error update with delete product";
+    }
+  }
 
   public async getCarts() {
     try {
-      return await Carts.find()
+      return await Carts.find();
     } catch (error) {
-      throw error
+      throw error;
     }
+  }
+
+  public async updateCart(cartId: string){
+    const cartById = await this.getCartById(cartId)
+  }
+
+  private productIndex(products: ProductCart[], productId: string): number {
+    return products.findIndex(
+      (product: ProductCart) => product.product?._id.toJSON() === productId
+    );
   }
 }

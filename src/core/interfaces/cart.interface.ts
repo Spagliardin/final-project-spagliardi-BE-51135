@@ -1,4 +1,4 @@
-import { Document, Types } from "mongoose";
+import { Document, ObjectId, Types } from "mongoose";
 
 export interface CartsInput extends Document {
   products: ProductCart[];
@@ -8,4 +8,5 @@ export interface CartsInput extends Document {
 export interface ProductCart {
   product:  Types.ObjectId;
   quantity: number;
+  _id?: ObjectId;
 }
