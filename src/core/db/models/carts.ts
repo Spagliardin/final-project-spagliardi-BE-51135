@@ -22,10 +22,9 @@ const CartSchema = new Schema<CartsInput>({
 })
 
 CartSchema.method('toJSON', function() {
-  const {__v, _id, ...object} = this.toObject();
+  const {__v, _id, ...object}: any = this.toObject();
   
   object.products = object.products.map(({product, ...objects}: any) => {
-    console.log(product);
     const { __v, _id, ...object } = product
     object.pid = _id
     return { product: object, ...objects }

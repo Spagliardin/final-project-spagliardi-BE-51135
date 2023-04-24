@@ -100,7 +100,7 @@ export class CartManager {
         { "products._id": productsId },
         { $pull: { products: { product: productId } } },
         { new: true }
-      );
+      ).populate("products.product");
 
     try {
       const cartWithoutDeletedProduct = await deleteProduct();

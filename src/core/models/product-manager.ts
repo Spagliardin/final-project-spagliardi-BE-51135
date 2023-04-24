@@ -47,10 +47,11 @@ export class ProductManager {
     const options = {
       sort,
       limit,
-      page
+      page,
+      query
     }
 
-    const products = await Product.paginate({ query }, options)
+    const products = await Product.paginate({}, options)
 
     try {
       return {
