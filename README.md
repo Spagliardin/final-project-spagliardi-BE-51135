@@ -34,6 +34,28 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 							"path": [
 								"api",
 								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "asc",
+									"disabled": true
+								},
+								{
+									"key": "query",
+									"value": "status:false",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -45,7 +67,7 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/products/1grtn55oq0d026c30fbe228",
+							"raw": "localhost:8080/api/products/64403902b3e6266a6a4448e7",
 							"host": [
 								"localhost"
 							],
@@ -53,7 +75,7 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 							"path": [
 								"api",
 								"products",
-								"1grtn55oq0d026c30fbe228"
+								"64403902b3e6266a6a4448e7"
 							]
 						}
 					},
@@ -66,7 +88,7 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Parlante Noblex MNT390 portátil con bluetooth negro 220V\",\n    \"description\": \"Noblex MNT390 ofrece un sonido natural, con una gran claridad y precisión, que se dispersa de manera uniforme. Un parlante que asegura potencia y calidad por igual en la reproducción de contenidos multimedia.\",\n    \"price\": 68199,\n    \"thumbnail\": [],\n    \"code\": \"MNT390\",\n    \"status\": true,\n    \"category\": \"Tecno\",\n    \"stock\": 55\n}",
+							"raw": "    {\n    \"title\": \"Colchón 1 Plaza (80x190) Inducol Cauri Resorte\",\n    \"description\": \"El colchón Cauri Base esta compuesto por tela de sabana matelaseada de excelente calidad, una mallla de polipropileno que aísla la estructura de resortes de las espumas lo que impide el desgaste y la deformación.\\n\\nSus capas de espuma de poliuretano que aumentan el confort y genera la sensación de firmeza necesaria para un soporte anatómico.\\n\\nPosee un marco de acero perimetral y doble refuerzo de estabilizadores laterales que aportan mayor rigidez a la base de resortes.\",\n    \"price\": 30600,\n    \"thumbnail\": [],\n    \"code\": \"AWW456\",\n    \"status\": true,\n    \"category\": \"Colchones\",\n    \"stock\": 21\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -102,7 +124,7 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/products/1grtn55oq0d026c30fbe228",
+							"raw": "localhost:8080/api/products/64403874b3e6266a6a4448e5",
 							"host": [
 								"localhost"
 							],
@@ -110,7 +132,7 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 							"path": [
 								"api",
 								"products",
-								"1grtn55oq0d026c30fbe228"
+								"64403874b3e6266a6a4448e5"
 							]
 						}
 					},
@@ -131,7 +153,7 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/products/1grtn55oq0d026c30fbe228",
+							"raw": "localhost:8080/api/products/64406c45a3041a3c5268f45c",
 							"host": [
 								"localhost"
 							],
@@ -139,7 +161,7 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 							"path": [
 								"api",
 								"products",
-								"1grtn55oq0d026c30fbe228"
+								"64406c45a3041a3c5268f45c"
 							]
 						}
 					},
@@ -151,13 +173,16 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 			"name": "Carts",
 			"item": [
 				{
-					"name": "create-cart",
+					"name": "get-carts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"products\": [\n        { \"product\":  \"1grtn4rap0e80f54522e3f1\" }\n    ]\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -184,7 +209,7 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/carts/1grtp0kap004caaf11e92c5",
+							"raw": "localhost:8080/api/carts/6442a40f7b7deb7e494c7a6a",
 							"host": [
 								"localhost"
 							],
@@ -192,7 +217,35 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 							"path": [
 								"api",
 								"carts",
-								"1grtp0kap004caaf11e92c5"
+								"6442a40f7b7deb7e494c7a6a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"products\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/carts",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts"
 							]
 						}
 					},
@@ -204,7 +257,7 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/carts/1gru4ajlf024bca50a9854d/product/1grtn4rap0e80f54522e3f1",
+							"raw": "localhost:8080/api/carts/6442a40f7b7deb7e494c7a6a/product/64406a0e992c9fd88fff8ee2",
 							"host": [
 								"localhost"
 							],
@@ -212,9 +265,91 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 							"path": [
 								"api",
 								"carts",
-								"1gru4ajlf024bca50a9854d",
+								"6442a40f7b7deb7e494c7a6a",
 								"product",
-								"1grtn4rap0e80f54522e3f1"
+								"64406a0e992c9fd88fff8ee2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-product-to-cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/carts/6442672352883cf3a92c923e/product/64403902b3e6266a6a4448e7",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"6442672352883cf3a92c923e",
+								"product",
+								"64403902b3e6266a6a4448e7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-all-cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/carts/6442a40f7b7deb7e494c7a6a",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"6442a40f7b7deb7e494c7a6a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modify-quantity",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/carts/6442a40f7b7deb7e494c7a6a/product/644071b21127976f4fba34b2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"6442a40f7b7deb7e494c7a6a",
+								"product",
+								"644071b21127976f4fba34b2"
 							]
 						}
 					},
@@ -236,50 +371,9 @@ Run `npm run build` and `npm run copy-statics` to build the project. The build a
 - Create carts
 - Get cart by id
 - Add products to cart
+- Delete product to cart
+- updated quantity
 
 ## Products test
 
-[
-  {
-    "title": "Mesa Notebook Gadnic Soporte Plegable Regulable Con Cooler",
-    "description": "Mesa Notebook Gadnic regulable Laptop Con cooler Desk711",
-    "price": 15349,
-    "thumbnail": [],
-    "code": "MESA0001",
-    "status": true,
-    "category": "Tecno",
-    "stock": 25
-  },
-  {
-    "title": "Tobogan Elefantito 4 Niveles 3 Escalones Rodacross Srj",
-    "description": "Tobogan Elefantito Rodacross",
-    "price": 19139,
-    "thumbnail": [],
-    "code": "ABC123",
-    "status": true,
-    "category": "juguetes",
-    "stock": 31
-  },
-  {
-    "title": "Bicicleta Mountain Mtb Firebird Rodado 29 21v Modelo 2023",
-    "description": "Cuadro: FireBird Turbo Acero NUEVO MODELO",
-    "price": 69499,
-    "thumbnail": [],
-    "code": "ABC554",
-    "status": true,
-    "category": "Deporte",
-    "stock": 10
-  },
-  {
-    "title": "Parlante Noblex MNT390 portátil con bluetooth negro 220V",
-    "description": "Noblex MNT390 ofrece un sonido natural, con una gran claridad y precisión, que se dispersa de manera uniforme. Un parlante que asegura potencia y calidad por igual en la reproducción de contenidos multimedia.",
-    "price": 68199,
-    "thumbnail": [],
-    "code": "MNT390",
-    "status": true,
-    "category": "Tecno",
-    "stock": 55
-  }
-]
-
-
+DB with data
