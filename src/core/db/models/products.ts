@@ -1,4 +1,4 @@
-import { PaginateModel, Schema, model } from 'mongoose'
+import { Schema, model } from 'mongoose'
 import paginate from 'mongoose-paginate-v2';
 import { ProductDocument, ProductInterface } from '../../interfaces/product.interface';
 
