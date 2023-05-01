@@ -6,7 +6,7 @@ export class AuthManager {
   constructor() {}
 
 
-  public async login(bodyLogin: { email: string, password: string }): Promise<boolean | Error> {
+  public async login(bodyLogin: { email: string, password: string }): Promise<void | Error> {
     try {
       const { email, password } = bodyLogin
       const userDB = await User.findOne({ email })
@@ -16,8 +16,6 @@ export class AuthManager {
       const validPassword = compareSync( password, userDB.password ) 
 
       if(!validPassword) throw 'Invalid credentials'
-
-      return true
 
     } catch (error) {
       console.error(error);

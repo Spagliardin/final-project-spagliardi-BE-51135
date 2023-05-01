@@ -8,11 +8,11 @@ export const login = async( req: Request, res: Response ) => {
 
   const { email, password } = req.body
   const bodyLogin = { email, password }
-  const isAuth = await authManager.login(bodyLogin)
-
-  if(!isAuth) throw 'Error with login'
-
+  
+  // if(!isAuth) throw 'Error with login'
+  
   try {
+    await authManager.login(bodyLogin)
     res.json({
       ok: true,
       msg: 'Login Success'
