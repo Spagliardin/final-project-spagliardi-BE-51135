@@ -1,3 +1,4 @@
+import { generateJTW } from './../../helpers/jwt';
 import User from "../db/models/user"
 import { UserInterface } from "../interfaces/user.interface"
 import { genSaltSync, hashSync } from "bcrypt"
@@ -15,7 +16,7 @@ export class UserManager {
     }
   }
 
-  public async createUser(bodyUser: UserInterface): Promise<UserInterface | Error>{
+  public async createUser(bodyUser: UserInterface){
     const { email, password } = bodyUser
 
     
@@ -29,7 +30,11 @@ export class UserManager {
       user.password = hashSync(password, salt)
 
       await user.save()
-      return user
+      const token = await generateJTW( user.id )
+      return {
+        user,
+        token
+      }
     } catch (error) {
       console.error(error)
       throw 'Error with register user'

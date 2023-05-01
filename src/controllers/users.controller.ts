@@ -12,10 +12,11 @@ export const createUser = async ( req: Request, res: Response ) => {
   
   try {
     
-    const user = await userManager.createUser(bodyUser)
+    const { user, token } = await userManager.createUser(bodyUser)
     res.json({
       ok: true,
-      user
+      user,
+      token
     })
 
   } catch (error) {
