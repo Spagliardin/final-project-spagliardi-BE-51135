@@ -21,7 +21,7 @@ export class UserManager {
 
     
     try {
-      const duplicatedEmail = await User.findOne({ email })
+      const duplicatedEmail = await this.getUserByEmail(email)
       if (duplicatedEmail) throw 'Error with register'
 
       const user = new User(bodyUser)
@@ -39,5 +39,11 @@ export class UserManager {
       console.error(error)
       throw 'Error with register user'
     }
+  }
+
+  private async getUserByEmail(email: string){
+    return await User.findOne({
+      email,
+    });
   }
 }

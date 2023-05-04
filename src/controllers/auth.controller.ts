@@ -11,7 +11,7 @@ export const login = async (req: Request, res: Response) => {
     const { token, userDB } = await authManager.login(bodyLogin);
     res.json({
       ok: true,
-      userDB,
+      user: userDB,
       token,
     });
   } catch (error) {
@@ -24,7 +24,9 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const renewToken = async (req: Request, res: Response) => {
-  const { token, user } = await authManager.renewToken(req.uid);
+  
+  const { uid }: any = req.user
+  const { token, user } = await authManager.renewToken(uid);
 
   try {
     res.json({
@@ -40,3 +42,21 @@ export const renewToken = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const googleSignIn = async (req: Request, res: Response) => {
+  
+  const payload = await authManager.googleSignIn(req.body.token)
+  
+  try {
+    res.json({
+      ok: true,
+      payload
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({
+      ok: false,
+      msg: "Error with token",
+    });
+  }
+}
